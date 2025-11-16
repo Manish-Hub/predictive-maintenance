@@ -32,9 +32,6 @@ except Exception:
 # Streamlit UI
 st.title("⚙️ Predictive Maintenance App")
 st.write("Predicts engine condition (Normal vs Warning) using sensor inputs.")
-st.write(f"Inputs: {sample_input.to_dict()}")
-st.write(f"Scaled inputs: {sample_scaled}")
-st.write(f"Predicted probability: {prob:.2f}, Threshold: {threshold}")
 
 # Sidebar metadata
 st.sidebar.header("ℹ️ Model Info")
@@ -43,12 +40,12 @@ st.sidebar.write("Model: XGBoost (tuned)")
 st.sidebar.write("[View on Hugging Face](https://huggingface.co/ManishTK44/predictive-maintenance-model)")
 
 # Inputs
-engine_rpm = st.number_input("Engine RPM", min_value=500, max_value=2000, value=1200)
-lub_oil_pressure = st.number_input("Lub Oil Pressure", min_value=0.5, max_value=3.0, value=1.5)
-fuel_pressure = st.number_input("Fuel Pressure", min_value=100, max_value=300, value=210)
-coolant_pressure = st.number_input("Coolant Pressure", min_value=0.5, max_value=3.0, value=1.4)
-lub_oil_temp = st.number_input("Lub Oil Temp (°C)", min_value=60, max_value=120, value=95)
-coolant_temp = st.number_input("Coolant Temp (°C)", min_value=60, max_value=120, value=85)
+engine_rpm = st.number_input("Engine RPM", min_value=500, max_value=5000, value=1200)
+lub_oil_pressure = st.number_input("Lub Oil Pressure", min_value=0.5, max_value=7.0, value=1.5)
+fuel_pressure = st.number_input("Fuel Pressure", min_value=100, max_value=600, value=210)
+coolant_pressure = st.number_input("Coolant Pressure", min_value=0.5, max_value=7.0, value=1.4)
+lub_oil_temp = st.number_input("Lub Oil Temp (°C)", min_value=60, max_value=420, value=95)
+coolant_temp = st.number_input("Coolant Temp (°C)", min_value=60, max_value=420, value=85)
 
 if st.button("Predict"):
     sample_input = pd.DataFrame([{
@@ -69,6 +66,9 @@ if st.button("Predict"):
     prob = model.predict_proba(sample_scaled)[0][1]
     prob_str = f"{prob:.2%}"
     label = "Warning" if prob >= threshold else "Normal"
+    st.write(f"Predicted probability: {prob:.2f}, Threshold: {threshold}")
+    st.write(f"Inputs: {sample_input.to_dict()}")
+    st.write(f"Scaled inputs: {sample_scaled}")
     st.write(f"Predicted probability: {prob:.2f}, Threshold: {threshold}")
     # Styled outputs
     if label == "Warning":
