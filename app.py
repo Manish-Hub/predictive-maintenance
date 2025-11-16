@@ -53,9 +53,7 @@ if st.button("Predict"):
         "Lub oil pressure": lub_oil_pressure,
         "Fuel pressure": fuel_pressure,
         "Coolant pressure": coolant_pressure,
-        st.caption("Adjust parameters to simulate engine conditions. Values outside normal ranges may trigger warnings.")
         "lub oil temp": lub_oil_temp,
-        st.caption("Adjust parameters to simulate engine conditions. Values outside normal ranges may trigger warnings.")
         "Coolant temp": coolant_temp
     }])
 
@@ -67,7 +65,8 @@ if st.button("Predict"):
 
     prob = model.predict_proba(sample_scaled)[0][1]
     prob_str = f"{prob:.2%}"
-    label = "Warning" if prob >= threshold else "Normal"
+    label = "Warning" if prob >= threshold elif prob >= 0.3 else "Normal"
+    st.caption("Adjust parameters to simulate engine conditions. Values outside normal ranges may trigger warnings.")
     st.write(f"Predicted probability: {prob:.2f}, Threshold: {threshold}")
 
     # Styled outputs
