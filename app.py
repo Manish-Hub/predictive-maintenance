@@ -65,7 +65,14 @@ if st.button("Predict"):
 
     prob = model.predict_proba(sample_scaled)[0][1]
     prob_str = f"{prob:.2%}"
-    label = "Warning" if prob >= threshold elif prob >= 0.3 else "Normal"
+    # ✅ Define label based on probability and threshold
+    if prob >= threshold:
+        label = "Warning"
+    elif prob >= 0.3:
+        label = "Borderline"
+    else:
+        label = "Normal"
+
     st.caption("Adjust parameters to simulate engine conditions. Values outside normal ranges may trigger warnings.")
     st.write(f"Predicted probability: {prob:.2f}, Threshold: {threshold}")
 
