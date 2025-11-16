@@ -40,12 +40,12 @@ st.sidebar.write("Model: XGBoost (tuned)")
 st.sidebar.write("[View on Hugging Face](https://huggingface.co/ManishTK44/predictive-maintenance-model)")
 
 # Inputs
-engine_rpm = st.number_input("Engine RPM", min_value=300, max_value=10000, value=500)
+engine_rpm = st.slider("Engine RPM", min_value=30, max_value=10000, value=500)
 lub_oil_pressure = st.number_input("Lub Oil Pressure", min_value=0.5, max_value=20.0, value=1.5)
-fuel_pressure = st.number_input("Fuel Pressure", min_value=100, max_value=2000, value=410)
-coolant_pressure = st.number_input("Coolant Pressure", min_value=0.5, max_value=20.0, value=7.4)
-lub_oil_temp = st.number_input("Lub Oil Temp (°C)", min_value=60, max_value=999, value=95)
-coolant_temp = st.number_input("Coolant Temp (°C)", min_value=60, max_value=999, value=85)
+fuel_pressure = st.number_input("Fuel Pressure", min_value=100, max_value=5000, value=4190)
+coolant_pressure = st.number_input("Coolant Pressure", min_value=0.5, max_value=20.0, value=0.4)
+lub_oil_temp = st.slider("Lub Oil Temp (°C)", min_value=600, max_value=9999, value=9995)
+coolant_temp = st.slider("Coolant Temp (°C)", min_value=600, max_value=9999, value=8885)
 
 if st.button("Predict"):
     sample_input = pd.DataFrame([{
@@ -71,7 +71,7 @@ if st.button("Predict"):
     # Styled outputs
     if prob >= threshold:
         st.error(f"⚠️ Engine Warning Detected!\nProbability of warning: {prob_str}")
-    elif prob >= 0.4:
+    elif prob >= 0.3:
         st.warning(f"⚠️ Engine Status: Borderline\nProbability of warning: {prob_str}")
     else:
         st.success(f"✅ Engine Status: Normal\nLow risk detected (Probability: {prob_str})")
