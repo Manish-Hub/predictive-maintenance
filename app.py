@@ -69,7 +69,10 @@ if st.button("Predict"):
     st.write(f"Predicted probability: {prob:.2f}, Threshold: {threshold}")
 
     # Styled outputs
-    if label == "Warning":
-        st.error(f"⚠️ Engine Warning Detected!\nProbability: {prob_str}")
+    if prob >= threshold:
+        st.error(f"⚠️ Engine Warning Detected!\nProbability of warning: {prob_str}")
+    elif prob >= 0.4:
+        st.warning(f"⚠️ Engine Status: Borderline\nProbability of warning: {prob_str}")
     else:
-        st.success(f"✅ Engine Normal.\nProbability of warning: {prob_str}")
+        st.success(f"✅ Engine Status: Normal\nLow risk detected (Probability: {prob_str})")
+
