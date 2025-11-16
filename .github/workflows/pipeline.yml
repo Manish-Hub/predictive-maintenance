@@ -38,4 +38,30 @@ jobs:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
       run: |
         pip install huggingface_hub
-        huggingface-cli upload ./           --repo-id ManishTK44/predictive-maintenance-app           --repo-type space           --token $HF_TOKEN
+        python - <<'EOF'
+        from huggingface_hub import HfApi
+        import os
+
+        api = HfApi()
+        space_id = "ManishTK44/predictive-maintenance-app"
+
+        files = [
+            "app.py",
+            "requirements.txt",
+            "Dockerfile",
+            "README.md",
+            "xgb_model_final.pkl",
+            "xgb_threshold.txt",
+            "engine_data.csv"
+        ]
+
+        for f in files:
+            if os.path.exists(f):
+                api.upload_file(
+                    path_or_fileobj=f,
+                    path_in_repo=f,
+                    repo_id=space_id,
+                    repo_type="space",
+                    token=os.environ["HF_TOKEN"]
+                )
+        EOF
