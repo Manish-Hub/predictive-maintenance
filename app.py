@@ -32,6 +32,9 @@ except Exception:
 # Streamlit UI
 st.title("⚙️ Predictive Maintenance App")
 st.write("Predicts engine condition (Normal vs Warning) using sensor inputs.")
+st.write(f"Inputs: {sample_input.to_dict()}")
+st.write(f"Scaled inputs: {sample_scaled}")
+st.write(f"Predicted probability: {prob:.2f}, Threshold: {threshold}")
 
 # Sidebar metadata
 st.sidebar.header("ℹ️ Model Info")
