@@ -75,6 +75,7 @@ if st.button("Predict"):
     st.write("Raw input:", sample_input)
     st.write("Scaled input:", sample_scaled)
     st.write(f"Predicted probability: {prob:.2f}")
+    
 
     # Styled outputs
     if prob >= threshold:
